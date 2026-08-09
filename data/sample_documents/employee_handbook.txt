@@ -1,0 +1,23 @@
+===============================================================================
+ENTERPRISE EMPLOYEE HANDBOOK & OPERATIONAL GUIDELINES v4.2
+CLASSIFICATION: INTERNAL (LEVEL 1)
+DEPARTMENT: HUMAN RESOURCES
+===============================================================================
+
+1. ANNUAL LEAVE & TIME OFF POLICY
+All full-time employees are entitled to 22 paid annual leaves per calendar year. 
+Unused leaves up to 5 days can be carried forward into the next calendar year.
+Leave requests exceeding 3 consecutive days must be submitted at least 14 days in advance via the HR Portal and require explicit Manager approval.
+
+2. REMOTE WORK & HYBRID FLEXIBILITY
+Employees in eligible technical and operational roles may work remotely up to 2 days per week (Tuesdays and Thursdays are mandatory core in-office days).
+Full remote status requires Director approval and a signed Remote Work Security Agreement.
+
+3. EXPENSE REIMBURSEMENT & HOME OFFICE ALLOWANCE
+A one-time home office setup stipend of $500 is provided to newly hired engineering and product personnel.
+Monthly internet expense allowance is capped at $75 per month upon receipt submission.
+All expense reports must be submitted within 30 days of incurring the expense.
+
+4. PERFORMANCE REVIEWS & PROMOTION CYCLES
+Performance reviews are conducted bi-annually in June and December.
+To be eligible for promotion to Senior level (Level 4+), an employee must achieve a "Exceeds Expectations" rating in at least two consecutive review cycles.

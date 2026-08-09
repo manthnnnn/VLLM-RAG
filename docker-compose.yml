@@ -1,0 +1,109 @@
+
+services:
+  # ─── Optional GPU vLLM Engine ────────────────────────────────────────────────
+  # Only started when the 'gpu' profile is active:
+  #   docker-compose --profile gpu up
+  vllm-engine:
+    image: vllm/vllm-openai:v0.6.1.post2
+    container_name: vllm-engine
+    profiles: ["gpu"]
+    ports:
+      - "8000:8000"
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    environment:
+      - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN:-}
+    command: >
+      --model Qwen/Qwen2.5-7B-Instruct-AWQ
+      --quantization awq
+      --gpu-memory-utilization 0.85
+      --max-model-len 4096
+      --enable-prefix-caching
+      --port 8000
+      --host 0.0.0.0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/v1/models"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # ─── Qdrant Vector Database ───────────────────────────────────────────────────
+  qdrant-vector-db:
+    image: qdrant/qdrant:latest
+    container_name: qdrant-vector-db
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:6333/healthz || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ─── Redis Semantic Cache ─────────────────────────────────────────────────────
+  redis-cache:
+    image: redis:7-alpine
+    container_name: redis-cache
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ─── FastAPI API Gateway ──────────────────────────────────────────────────────
+  api-gateway:
+    build: .
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      qdrant-vector-db:
+        condition: service_healthy
+      redis-cache:
+        condition: service_healthy
+    # vllm-engine is optional (DEMO_MODE handles its absence)
+    restart: on-failure
+
+  # ─── Streamlit Frontend (legacy, kept for reference) ─────────────────────────
+  frontend:
+    build: ./frontend
+    container_name: streamlit-frontend
+    profiles: ["streamlit"]
+    ports:
+      - "8501:8501"
+    environment:
+      - API_URL=http://api-gateway:8080
+    depends_on:
+      - api-gateway
+
+  # ─── Next.js Dashboard Frontend (primary UI) ─────────────────────────────────
+  frontend-node:
+    build: ./frontend-node
+    container_name: nextjs-dashboard-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+    depends_on:
+      - api-gateway
+
+volumes:
+  qdrant_data:
+  redis_data:

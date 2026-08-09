@@ -1,0 +1,25 @@
+===============================================================================
+GLOBAL IT SECURITY PROTOCOLS & INFRASTRUCTURE STANDARDS v2.1
+CLASSIFICATION: CONFIDENTIAL (LEVEL 2)
+DEPARTMENT: SECURITY ENGINEERING
+===============================================================================
+
+1. IDENTITY & AUTHENTICATION PROTOCOLS
+Multi-Factor Authentication (MFA) is strictly mandatory across all enterprise systems including GitHub, AWS, and Slack.
+Password complexity rules require a minimum length of 16 characters including uppercase, lowercase, numbers, and special symbols.
+Passwords must be rotated automatically every 90 days via HashiCorp Vault.
+
+2. SECURE ACCESS & SSH KEY ROTATION
+Direct root access to production servers is strictly prohibited.
+All administrative server access must pass through Teleport Bastion hosts.
+SSH keys must be rotated every 90 days. Short-lived certificate-based SSH access is enforced for developer environments.
+
+3. INCIDENT RESPONSE & SEVERITY SLAS
+Severity 1 (Critical Data Breach / Service Outage): Response SLA < 15 minutes. Incident Commander assigned immediately.
+Severity 2 (High Risk Vulnerability): Response SLA < 2 hours. Patching required within 24 hours.
+Severity 3 (Medium Risk Issue): Response SLA < 24 hours. Resolution within 7 business days.
+
+4. DATA CLASSIFICATION LEVELS
+Level 1 (Public / Internal): Employee handbooks, general policy docs.
+Level 2 (Confidential): Architecture diagrams, source code, internal APIs. Access restricted to technical staff.
+Level 3 (Restricted / PII): Customer PII, billing databases, financial records. Requires Legal & VP Security approval.
