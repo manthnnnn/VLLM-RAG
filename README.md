@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/263917d8-cd22-4679-81a1-d5fe9b71150f
+
 # Enterprise Private Document Intelligence Engine
 
 This project is an Enterprise Private Document Intelligence Engine. It allows an organization to upload internal company documents—such as policy manuals, technical specifications, legal contracts, and operational guidelines—and ask questions in natural language. The system retrieves exact information from those files and generates accurate answers in real time, with sources cited.
@@ -121,3 +125,7 @@ python scripts/eval_rag.py
 ```bash
 python scripts/benchmark.py
 ```
+
+https://github.com/user-attachments/assets/9f10bf18-7a8b-43d3-9b56-6fa43279de7f
+
+
